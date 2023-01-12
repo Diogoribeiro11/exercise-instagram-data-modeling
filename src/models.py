@@ -15,16 +15,8 @@ class Person(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     age= Column(Integer)
-    
-class User(Base):
-    __tablename__ = 'user'
-    id = Column(Integer, primary_key=True)
-    user_name = Column(String(20))
-    password = Column(String(15))
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
 
-    class Address(Base):
+class Address(Base):
     __tablename__ = 'address'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
@@ -33,17 +25,26 @@ class User(Base):
     street_number = Column(String(250))
     post_code = Column(String(250), nullable=False)
     person_id = Column(Integer, ForeignKey('person.id'))
+    person = relationship(Person)  
+
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    user_name = Column(String(20))
+    password = Column(String(15))
+    person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship(Person)
-    
+   
 class Post(Base):
     __tablename__ = 'post' 
     id = Column(Integer, primary_key=True)
-    post_date(String(10))
-    post_description(String(150))
+    post_date = Column(String(10))
+    post_description = Column(String(150))
     person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship(Person)
 
 class Following(Base):
+    __tablename__ = 'following' 
     id = Column(Integer, primary_key=True)
     person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship(Person)
@@ -62,3 +63,4 @@ try:
 except Exception as e:
     print("There was a problem genering the diagram")
     raise e
+
